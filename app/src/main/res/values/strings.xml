@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Borrow</string>
+    <string name="borrowed_item">Borrowed Item</string>
+    <string name="borrower_name">Borrower Name</string>
+    <string name="borrowed_date">Borrowed Date</string>
+    <string name="delete">Delete</string>
+    <string name="sort_by">Sort by</string>
+    <string name="date_added">Date Added</string>
+    <string name="name">Name</string>
+    <string name="search">Search</string>
+</resources>
