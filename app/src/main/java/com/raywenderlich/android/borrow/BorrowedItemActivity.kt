@@ -22,11 +22,12 @@ class BorrowedItemActivity : AppCompatActivity(), DatePickerDialog.OnDateSetList
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_add_edit)
 
-    if (intent.extras?.getLong(MainActivity.INTENT_EXTRA_KEY) != null) {
-      borrowItemToBeEdited = borrowBox.get(intent.extras?.getLong(MainActivity.INTENT_EXTRA_KEY)!!)
-      borrowed_item_name_edittext.setText(borrowItemToBeEdited!!.itemName)
-      borrower_name_edittext.setText(borrowItemToBeEdited!!.borrowerName)
-      borrow_date_textview.text = borrowItemToBeEdited!!.borrowDate
+    val borrowId = intent.extras?.getLong(MainActivity.INTENT_EXTRA_KEY)
+    if (borrowId != null) {
+      borrowItemToBeEdited = borrowBox.get(borrowId)
+      borrowed_item_name_edittext.setText(borrowItemToBeEdited?.itemName)
+      borrower_name_edittext.setText(borrowItemToBeEdited?.borrowerName)
+      borrow_date_textview.text = borrowItemToBeEdited?.borrowDate
     }
 
     datePickerDialog = DatePickerDialog(
@@ -51,6 +52,7 @@ class BorrowedItemActivity : AppCompatActivity(), DatePickerDialog.OnDateSetList
           borrowDate = borrow_date_textview.text.toString()
         )
         if (borrowItemToBeEdited != null) {
+          // force unwrap here is fine since id can't become null once set.
           borrowedItem.id = borrowItemToBeEdited!!.id
         }
         borrowBox.put(borrowedItem)
@@ -89,9 +91,12 @@ class BorrowedItemActivity : AppCompatActivity(), DatePickerDialog.OnDateSetList
   }
 
   private fun deleteBorrowedItem() {
-    borrowBox.remove(borrowItemToBeEdited!!)
-    Toast.makeText(this,  "Removed note with title " +
-        "${borrowItemToBeEdited!!.itemName}", Toast.LENGTH_LONG).show()
-    finish()
+    if (borrowItemToBeEdited != null) {
+      // force unwrap here is fine since id can't become null once set.
+      borrowBox.remove(borrowItemToBeEdited!!)
+      Toast.makeText(this,  "Removed note with title " +
+          borrowItemToBeEdited?.itemName, Toast.LENGTH_LONG).show()
+      finish()
+    }
   }
 }
